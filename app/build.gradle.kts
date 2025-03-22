@@ -60,5 +60,5 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.okhttp)
     implementation(libs.serialization)
-    implementation(libs.converter)
+    implementation(libs.serializationConverter)
 }
