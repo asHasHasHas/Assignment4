@@ -15,48 +15,37 @@
  */
 package com.example.roverphotos.ui.screens
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.roverapi.network.RoverApiService
+import com.example.roverphotos.model.RoverPhoto
 import kotlinx.coroutines.launch
 
-/**
- * UI state for the Home screen
- */
-sealed interface MarsUiState {
-    data class Success(val photos: String) : MarsUiState
-    object Error : MarsUiState
-    object Loading : MarsUiState
-}
+class RoverViewModel : ViewModel() {
+    // State for holding the photo data and loading/error states
+    var roverPhoto = mutableStateOf<RoverPhoto?>(null)
+    var isLoading = mutableStateOf(true)
+    var errorMessage = mutableStateOf<String?>(null)
 
-class MarsViewModel : ViewModel() {
-    /** The mutable State that stores the status of the most recent request */
-    var marsUiState: String by mutableStateOf("")
-        private set
+    // Function to fetch rover photos
+    fun getRoverPhoto(roverName: String, earthDate: String) {
+        isLoading.value = true
+        errorMessage.value = null
 
-    /**
-     * Call getMarsPhotos() on init so we can display status immediately.
-     */
-    init {
-        getMarsPhotos()
-    }
-
-    /**
-     * Gets Mars photos information from the Mars API Retrofit service and updates the
-     * [MarsPhoto] [List] [MutableList].
-     */
-    fun getMarsPhotos() {
         viewModelScope.launch {
-
-            //val listResult = RoverApi.retrofitService.getPhotos()
-            //roverUiState = listResult
-
+            try {
+                val response = RoverApiService.retrofitService.getRoverPhotos(roverName, earthDate, null)
+                if (response.photos.isNotEmpty()) {
+                    roverPhoto.value = response.photos[0] // Assuming you want the first photo
+                } else {
+                    errorMessage.value = "No photos available for this date"
+                }
+                isLoading.value = false
+            } catch (e: Exception) {
+                errorMessage.value = "Error: ${e.message}"
+                isLoading.value = false
+            }
         }
     }
-}
-
-class RoverViewModel {
-
 }

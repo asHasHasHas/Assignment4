@@ -8,18 +8,16 @@ import androidx.compose.material3.Surface
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roverphotos.ui.screens.RoverViewModel
 import com.example.roverphotos.ui.theme.ui.screens.HomeScreen
+import com.example.roverphotos.ui.theme.ui.screens.RoverDetailScreen
 import com.example.roverphotos.ui.theme.ui.theme.RoverPhotosTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             RoverPhotosTheme {
-                Surface {
-                    val viewModel: RoverViewModel = viewModel()
-                    HomeScreen(roverUiState = viewModel.roverUiState)
-                }
+                // Use the RoverDetailScreen composable
+                RoverDetailScreen(roverName = "Curiosity", earthDate = "2025-03-25")
             }
         }
     }
