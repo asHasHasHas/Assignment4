@@ -1,6 +1,6 @@
 package com.example.roverapi.network
 
-import com.example.marsphotos.model.RoverPhotoResponse
+import com.example.roverphotos.model.RoverPhotoResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET

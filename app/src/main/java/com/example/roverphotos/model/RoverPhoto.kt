@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package com.example.marsphotos.model
+package com.example.roverphotos.model
 
 import com.google.gson.annotations.SerializedName
 
 data class RoverPhoto(
     @SerializedName("id") val id: String,
-    @SerializedName("img_src") val imgSrc: String
+    @SerializedName("img_src") val imgSrc: String,
+    @SerializedName("earth_date") val earthDate: String,
+    @SerializedName("camera") val camera: Camera,
+    @SerializedName("rover") val rover: Rover
 )

@@ -1,4 +1,4 @@
-package com.example.marsphotos.model
+package com.example.roverphotos.model
 
 import com.google.gson.annotations.SerializedName
 
