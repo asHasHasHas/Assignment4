@@ -22,7 +22,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.roverphotos.model.RoverPhoto
 
 @Composable
-fun PhotoDetailsScreen(photo: RoverPhoto) {
+fun RoverDetailScreen(photo: RoverPhoto) {
     val scrollState = rememberScrollState()
 
     Column(
