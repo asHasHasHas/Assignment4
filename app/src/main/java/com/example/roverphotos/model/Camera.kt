@@ -1,7 +1,7 @@
 package com.example.marsphotos.model
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
-data class Camera(@SerialName("full_name") val fullName: String)
+data class Camera(
+    @SerializedName("full_name") val fullName: String
+)

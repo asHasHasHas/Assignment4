@@ -1,7 +1,7 @@
 package com.example.marsphotos.model
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
-data class Rover(@SerialName("name") val name: String)
+data class Rover(
+    @SerializedName("name") val name: String
+)
