@@ -18,53 +18,65 @@
 
 package com.example.roverphotos.ui
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CenterAlignedTopAppBar
+
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roverphotos.R
-import com.example.roverphotos.ui.screens.HomeScreen
-import com.example.roverphotos.ui.screens.MarsViewModel
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.roverphotos.model.Rover
+import androidx.compose.foundation.lazy.items
 
 @Composable
-fun MarsPhotosApp() {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { MarsTopAppBar(scrollBehavior = scrollBehavior) }
-    ) {
-        Surface(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            val marsViewModel: MarsViewModel = viewModel()
-            HomeScreen(
-                marsUiState = marsViewModel.marsUiState,
-                contentPadding = it
-            )
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    roverList: List<Rover>
+){
+    LazyColumn(modifier = modifier) {
+        items(roverList) { rover ->
+            RoverCard(rover=rover)
         }
     }
 }
 
 @Composable
-fun MarsTopAppBar(scrollBehavior: TopAppBarScrollBehavior, modifier: Modifier = Modifier) {
-    CenterAlignedTopAppBar(
-        scrollBehavior = scrollBehavior,
-        title = {
+fun RoverCard(modifier: Modifier = Modifier, rover: Rover) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.rover),
+            contentDescription = "Picture of a rover",
+        )
+        Row() {
             Text(
-                text = stringResource(R.string.app_name),
-                style = MaterialTheme.typography.headlineSmall,
+                text = rover.name
             )
-        },
-        modifier = modifier
+            Text(
+                text = rover.launchDate
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewHomeScreen() {
+    val sampleRovers = listOf(
+        Rover("Curiosity", "2011-11-26"),
+        Rover("Opportunity", "2003-07-07"),
+        Rover("Spirit", "2003-06-10")
     )
+
+    HomeScreen(roverList = sampleRovers)
 }

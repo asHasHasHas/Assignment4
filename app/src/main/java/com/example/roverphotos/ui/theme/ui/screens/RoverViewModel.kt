@@ -18,6 +18,7 @@ package com.example.roverphotos.ui.screens
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.roverapi.network.RoverApi
 import com.example.roverapi.network.RoverApiService
 import com.example.roverphotos.model.RoverPhoto
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ class RoverViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val response = RoverApiService.retrofitService.getRoverPhotos(roverName, earthDate, null)
+                val response = RoverApi.retrofitService.getRoverPhotos(roverName, earthDate, null)
                 if (response.photos.isNotEmpty()) {
                     roverPhoto.value = response.photos[0] // Assuming you want the first photo
                 } else {
