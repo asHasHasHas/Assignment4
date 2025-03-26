@@ -28,22 +28,25 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class RoverViewModel : ViewModel() {
-    private val roverApi = RoverApiService.create() //Acts as API interface
-    val _roverResult = MutableLiveData<Response<ArrayList<Rover>>>()
-    val roverResult : LiveData<Response<ArrayList<Rover>>> = _roverResult
+    private val roverApi = RoverApiService.create() // API service instance
 
+    // LiveData for storing the list of photos
+    private val _roverPhotos = MutableLiveData<List<RoverPhoto>>()
+    val roverPhotos: LiveData<List<RoverPhoto>> = _roverPhotos
+
+    // Function to get rover photos data
     fun getData() {
         viewModelScope.launch {
             try {
-                val response = roverApi.getRovers()
-                if(response.isSuccessful) {
-                    Log.d("API response: ", response.body().toString())
-                    _roverResult.value = response
+                val response = roverApi.getRovers() // Fetch rover photos
+                if (response.isSuccessful) {
+                    // Handle the photos data response
+                    _roverPhotos.value = response.body()?.photos ?: emptyList()
                 } else {
-                    Log.d("network error","Failed to load data")
+                    Log.d("API Error", "Failed to load data")
                 }
-            } catch(e : Exception) {
-                e.message?.let { Log.d("Network Error", it)}
+            } catch (e: Exception) {
+                Log.d("Network Error", e.message ?: "Unknown error")
             }
         }
     }

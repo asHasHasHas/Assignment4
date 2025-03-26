@@ -10,21 +10,13 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 
+const val BASE_URL = "https://api.nasa.gov/mars-photos/api/v1/"
+
 interface RoverApiService {
-    @GET("rovers?api_key=DEMO_KEY")
-    suspend fun getRovers(): Response<ArrayList<Rover>>
-
-    companion object {
-        val BASE_URL = "https://api.nasa.gov/mars-photos/api/v1/"
-
-        fun create() : RoverApiService {
-
-            val retrofit = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create()) // Use Gson for JSON responses
-                .baseUrl(BASE_URL)
-                .build()
-            return retrofit.create(RoverApiService::class.java)
-        }
-    }
+    @GET("rovers/{rover}/photos")
+    suspend fun getRoverPhotos(
+        @Path("rover") roverName: String,
+        @Query("earth_date") earthDate: String,  // Ensuring Earth date filtering
+        @Query("api_key") apiKey: String = "DEMO_KEY"
+    ): Response<RoverPhotoResponse>
 }
-
