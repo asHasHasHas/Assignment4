@@ -15,31 +15,51 @@ import androidx.compose.ui.unit.dp
 import com.example.roverphotos.R
 import com.example.roverphotos.model.Rover
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
+import com.example.roverphotos.ui.screens.RoverViewModel
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    roverList: List<Rover>,
-    onRoverClick: (Rover) -> Unit
+    viewModel: RoverViewModel,
+    navController: NavController
 ){
-    LazyColumn(modifier = modifier) {
-        items(roverList) { rover ->
-            RoverCard(modifier = Modifier.width(350.dp), rover=rover, onClick = { onRoverClick(rover) })
+    val roverList = viewModel.rovers.value
+    val isLoading = viewModel.isLoading.value
+    val errorMessage = viewModel.errorMessage.value
+
+    LaunchedEffect(Unit) {
+        viewModel.getRovers() //Grabs rover list when screen is loaded
+    }
+
+    when {
+        isLoading -> CircularProgressIndicator()
+        errorMessage != null -> Text(text = errorMessage, color = Color.Red)
+        else -> LazyColumn(modifier = modifier) {
+            items(roverList) { rover ->
+                RoverCard(
+                    modifier = Modifier.width(350.dp),
+                    rover = rover
+            }
         }
     }
 }
 
 @Composable
 fun RoverCard(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-        .clickable{},
-    rover: Rover) {
+    rover: Rover,
+    itemClick: (String) -> Unit = {} ) {
     Column() {
         Divider(thickness = 1.dp)
         Row(
-            modifier = modifier,
+            modifier = Modifier
+                .clickable {
+                    itemClick(rover.name)
+                }
         ) {
             Image(
                 painter = painterResource(id = R.drawable.rover),

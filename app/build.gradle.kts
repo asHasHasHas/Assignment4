@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.example.roverphotos"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.roverphotos"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -72,6 +72,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation(libs.androidx.navigation.runtime.android)
     implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

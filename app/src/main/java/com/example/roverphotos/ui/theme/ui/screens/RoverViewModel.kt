@@ -15,37 +15,35 @@
  */
 package com.example.roverphotos.ui.screens
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roverapi.network.RoverApi
 import com.example.roverapi.network.RoverApiService
+import com.example.roverphotos.model.Rover
 import com.example.roverphotos.model.RoverPhoto
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class RoverViewModel : ViewModel() {
-    // State for holding the photo data and loading/error states
-    var roverPhoto = mutableStateOf<RoverPhoto?>(null)
-    var isLoading = mutableStateOf(true)
-    var errorMessage = mutableStateOf<String?>(null)
+    private val roverApi = RoverApiService.create() //Acts as API interface
+    val _roverResult = MutableLiveData<Response<ArrayList<Rover>>>()
+    val heroResult : LiveData<Response<ArrayList<Rover>>> = _roverResult
 
-    // Function to fetch rover photos
-    fun getRoverPhoto(roverName: String, earthDate: String) {
-        isLoading.value = true
-        errorMessage.value = null
-
+    fun getData() {
         viewModelScope.launch {
             try {
-                val response = RoverApi.retrofitService.getRoverPhotos(roverName, earthDate, null)
-                if (response.photos.isNotEmpty()) {
-                    roverPhoto.value = response.photos[0] // Assuming you want the first photo
+                val response = roverApi.getRovers()
+                if(response.isSuccessful) {
+                    Log.d("API response: ", response.body().toString())
+                    _roverResult.value = response
                 } else {
-                    errorMessage.value = "No photos available for this date"
+                    Log.d("network error","Failed to load data")
                 }
-                isLoading.value = false
-            } catch (e: Exception) {
-                errorMessage.value = "Error: ${e.message}"
-                isLoading.value = false
+            } catch(e : Exception) {
+                e.message?.let { Log.d("Network Error", it)}
             }
         }
     }
