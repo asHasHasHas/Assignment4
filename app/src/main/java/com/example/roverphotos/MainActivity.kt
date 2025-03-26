@@ -2,7 +2,9 @@ package com.example.roverphotos
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ComponentActivity
+import com.example.roverphotos.navigation.RoverNavigation
 import com.example.roverphotos.ui.theme.MarsPhotosTheme
 
 class MainActivity : ComponentActivity() {
@@ -10,7 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                Navigation()
+                RoverNavigation()
             }
         }
     }
@@ -21,5 +23,13 @@ fun MyApp(content: @Composable () -> Unit) {
     MarsPhotosTheme {
         content()
         
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun preview() {
+    MyApp {
+        RoverNavigation()
     }
 }
