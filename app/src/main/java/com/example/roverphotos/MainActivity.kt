@@ -2,8 +2,9 @@ package com.example.roverphotos
 
 import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.activity.compose.setContent
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.app.ComponentActivity
+import androidx.activity.ComponentActivity
 import com.example.roverphotos.navigation.RoverNavigation
 import com.example.roverphotos.ui.theme.MarsPhotosTheme
 

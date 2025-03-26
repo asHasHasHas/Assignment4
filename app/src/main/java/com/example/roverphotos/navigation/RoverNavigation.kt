@@ -15,11 +15,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.roverphotos.ui.screens.RoverViewModel
 import com.example.roverphotos.ui.theme.ui.screens.HomeScreen
 import com.example.roverphotos.ui.theme.ui.screens.RoverDetailScreen
 
@@ -27,10 +30,11 @@ import com.example.roverphotos.ui.theme.ui.screens.RoverDetailScreen
 @Composable
 fun RoverAppBar(
     currentScreen: String,
-    canNavigateBack: Boolean,
+    navController: NavController,
     navigateUp: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier
 ) {
+    val canNavigateBack = navController.previousBackStackEntry != null
     TopAppBar(
         title = { Text("RoverApp") },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -53,16 +57,17 @@ fun RoverAppBar(
 @Composable
 fun RoverNavigation() {
     val navController = rememberNavController()
+    val roverViewModel: RoverViewModel = viewModel()
+    roverViewModel.getData()
 
     Scaffold(
         topBar = {
-            val currentScreen = AppScreens.fromRoute(
-                navController.currentBackStackEntry?.destination?.route
-            )
             RoverAppBar(
-                currentScreen = currentScreen.name,
-                canNavigateBack = navController.previousBackStackEntry != null,
-                navigateUp = { navController.navigateUp() }
+                currentScreen = "Rover Display App",
+                navController = navController,
+
+                navigateUp = { navController.navigateUp() },
+                modifier = Modifier
             )
         }
     ) { innerPadding ->
@@ -74,16 +79,17 @@ fun RoverNavigation() {
                 .padding(innerPadding)
         ) {
             composable(AppScreens.HomeScreen.name) {
-                HomeScreen(navController = navController)
+
+                HomeScreen(navController = navController,roverViewModel)
             }
 
             composable(
-                route = AppScreens.RoverDetailScreen.name + "/{roverId}",
+                AppScreens.RoverDetailScreen.name + "/{roverId}",
                 arguments = listOf(navArgument("roverId") { type = NavType.StringType })
             ) { backStackEntry ->
                 RoverDetailScreen(
-                    navController = navController,
-                    roverId = backStackEntry.arguments?.getString("roverId")
+                    navController = navController,roverViewModel,
+                    backStackEntry . arguments ?. getString ("roverId"),
                 )
             }
         }
