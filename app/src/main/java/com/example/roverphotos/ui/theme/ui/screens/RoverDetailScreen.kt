@@ -1,5 +1,6 @@
 package com.example.roverphotos.ui.theme.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,12 +15,16 @@ import androidx.compose.material3.CircularProgressIndicator
 import coil.compose.rememberAsyncImagePainter
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.Image
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roverphotos.ui.screens.RoverViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoverDetailScreen(navController: NavController, roverName: String, earthDate: String) {
     val viewModel: RoverViewModel = viewModel()
@@ -46,7 +51,6 @@ fun RoverDetailScreen(navController: NavController, roverName: String, earthDate
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
-                backgroundColor = MaterialTheme.colorScheme.primary
             )
         }
     ) {
