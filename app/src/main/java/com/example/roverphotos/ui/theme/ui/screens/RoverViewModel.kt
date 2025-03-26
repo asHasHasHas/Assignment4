@@ -30,7 +30,7 @@ import retrofit2.Response
 class RoverViewModel : ViewModel() {
     private val roverApi = RoverApiService.create() //Acts as API interface
     val _roverResult = MutableLiveData<Response<ArrayList<Rover>>>()
-    val heroResult : LiveData<Response<ArrayList<Rover>>> = _roverResult
+    val roverResult : LiveData<Response<ArrayList<Rover>>> = _roverResult
 
     fun getData() {
         viewModelScope.launch {

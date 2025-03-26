@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
@@ -18,35 +19,31 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import com.example.roverphotos.navigation.AppScreens
+import com.example.roverphotos.ui.RoverCard
 import com.example.roverphotos.ui.screens.RoverViewModel
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: RoverViewModel,
+    roverViewModel: RoverViewModel,
     navController: NavController
 ){
-    val roverList = viewModel.rovers.value
-    val isLoading = viewModel.isLoading.value
-    val errorMessage = viewModel.errorMessage.value
+    val roverResult = roverViewModel.roverResult.observeAsState()
+    val roverList = roverResult.value?.body()
+    val roverListNonNullable = roverList?.filterNotNull() ?: emptyList()
 
-    LaunchedEffect(Unit) {
-        viewModel.getRovers() //Grabs rover list when screen is loaded
-    }
-
-    when {
-        isLoading -> CircularProgressIndicator()
-        errorMessage != null -> Text(text = errorMessage, color = Color.Red)
-        else -> LazyColumn(modifier = modifier) {
-            items(roverList) { rover ->
-                RoverCard(
-                    modifier = Modifier.width(350.dp),
-                    rover = rover
-            }
-        }
-    }
+    Column(modifier = Modifier.padding(12.dp)) {
+       LazyColumn {
+                items(roverListNonNullable) {
+                    RoverCard(rover = it){ rover->
+                        navController.navigate(route = AppScreens.RoverDetailScreen.name+"/$rover")
+                    }}
+                }
+       }
 }
 
 @Composable
@@ -76,19 +73,4 @@ fun RoverCard(
         }
         Divider(thickness = 1.dp)
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewHomeScreen() {
-    val sampleRovers = listOf(
-        Rover("Curiosity", "2011-11-26"),
-        Rover("Opportunity", "2003-07-07"),
-        Rover("Spirit", "2003-06-10")
-    )
-
-    HomeScreen(
-        roverList = sampleRovers,
-        onRoverClick = { rover -> println("Clicked on ${rover.name}") } // Example click action
-    )
 }
