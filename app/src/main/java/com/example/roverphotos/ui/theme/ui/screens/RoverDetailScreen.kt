@@ -1,12 +1,11 @@
 package com.example.roverphotos.ui.theme.ui.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.*
+
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -20,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.roverphotos.ui.screens.RoverViewModel
+import com.example.roverphotos.navigation.AppScreens
+import androidx.compose.material3.Scaffold
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -37,7 +38,7 @@ fun RoverDetailScreen(
             topBar = {
                 rover?.let {
                     AppBar(
-                        currentScreen = AppScreens.DetailScreen.name,
+                        currentScreen = AppScreens.RoverDetailScreen.name,
                         navController = navController,
                         navigateUp = { navController.navigateUp() },
                         context = LocalContext.current,

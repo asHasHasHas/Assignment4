@@ -5,25 +5,19 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.roverphotos.R
 import com.example.roverphotos.model.Rover
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material3.Text
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.example.roverphotos.navigation.AppScreens
-import com.example.roverphotos.ui.RoverCard
 import com.example.roverphotos.ui.screens.RoverViewModel
 
 @Composable
@@ -54,7 +48,7 @@ fun RoverCard(
         Row(
             modifier = Modifier
                 .clickable {
-                    itemClick(rover.name)
+                    itemClick(rover.id)
                 }
         ) {
             Image(
@@ -63,11 +57,11 @@ fun RoverCard(
             )
             Column() {
                 Text(
-                    text = rover.name
+                    text = rover.id
                 )
-                Text(
-                    text = rover.launchDate
-                )
+//                Text(
+//                    text = rover.launchDate
+//                )
             }
         }
         Divider(thickness = 1.dp)
