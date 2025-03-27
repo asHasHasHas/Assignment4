@@ -31,8 +31,8 @@ class RoverViewModel : ViewModel() {
     private val roverApi = RoverApiService.create() // API service instance
 
     // LiveData for storing the list of photos
-    private val _roverPhotos = MutableLiveData<List<RoverPhoto>>()
-    val roverPhotos: LiveData<List<RoverPhoto>> = _roverPhotos
+    val _roverPhotos = MutableLiveData<Response<ArrayList<Rover>>>()
+    val roverPhotos: LiveData<Response<ArrayList<Rover>>> = _roverPhotos
 
     // Function to get rover photos data
     fun getData() {
