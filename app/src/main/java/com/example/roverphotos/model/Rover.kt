@@ -3,7 +3,9 @@ package com.example.roverphotos.model
 import com.google.gson.annotations.SerializedName
 
 data class Rover(
-    @SerializedName("name") val name: String,
-    @SerializedName("launch_date") val launchDate: String,
-    @SerializedName("img_src") val imgSrc: String
+    @SerializedName("id") val id: String,
+    @SerializedName("earth_date") val earthDate: String,
+    @SerializedName("camera") val camera: Camera,
+    @SerializedName("rover") val rover: Rover,
+    @SerializedName("rover") val launchDate: Int
 )

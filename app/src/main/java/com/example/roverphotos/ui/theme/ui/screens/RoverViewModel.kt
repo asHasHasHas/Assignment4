@@ -31,8 +31,8 @@ class RoverViewModel : ViewModel() {
     private val roverApi = RoverApiService.create() // API service instance
 
     // LiveData for storing the list of photos
-    val _roverPhotos = MutableLiveData<Response<ArrayList<Rover>>>()
-    val roverPhotos: LiveData<Response<ArrayList<Rover>>> = _roverPhotos
+    val _roverResults = MutableLiveData<Response<ArrayList<Rover>>>()
+    val roverResult: LiveData<Response<ArrayList<Rover>>> = _roverResults
 
     // Function to get rover photos data
     fun getData() {
@@ -41,7 +41,7 @@ class RoverViewModel : ViewModel() {
                 val response = roverApi.getRovers() // Fetch rover photos
                 if (response.isSuccessful) {
                     // Handle the photos data response
-                    _roverPhotos.value = response
+                    _roverResults.value = response
                 } else {
                     Log.d("API Error", "Failed to load data")
                 }
