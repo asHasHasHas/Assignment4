@@ -28,7 +28,6 @@ import com.example.roverphotos.ui.screens.RoverViewModel
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     roverViewModel: RoverViewModel,
     navController: NavController
 ){

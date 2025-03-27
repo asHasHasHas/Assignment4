@@ -71,25 +71,22 @@ fun RoverNavigation() {
             )
         }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
+        NavHost(navController = navController,
             startDestination = AppScreens.HomeScreen.name,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-        ) {
+                .padding(innerPadding)) {
             composable(AppScreens.HomeScreen.name) {
 
-                HomeScreen(navController = navController,roverViewModel)
+                HomeScreen(roverViewModel, navController)
             }
 
-            composable(
-                AppScreens.RoverDetailScreen.name + "/{roverId}",
+            composable(AppScreens.RoverDetailScreen.name + "/{roverId}",
                 arguments = listOf(navArgument("roverId") { type = NavType.StringType })
             ) { backStackEntry ->
                 RoverDetailScreen(
                     navController = navController,roverViewModel,
-                    backStackEntry . arguments ?. getString ("roverId"),
+                    backStackEntry.arguments?.getString("roverId"),
                 )
             }
         }
