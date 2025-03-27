@@ -41,7 +41,7 @@ class RoverViewModel : ViewModel() {
                 val response = roverApi.getRovers() // Fetch rover photos
                 if (response.isSuccessful) {
                     // Handle the photos data response
-                    _roverPhotos.value = response.body()?.photos ?: emptyList()
+                    _roverPhotos.value = response
                 } else {
                     Log.d("API Error", "Failed to load data")
                 }
